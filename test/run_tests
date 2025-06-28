@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+project_dir="$(dirname "${script_dir}")"
+test_dir="${script_dir}"
+
+# Plugins directory
+plugins_dir="${test_dir}/plugins"
+vader_vim_dir="${plugins_dir}/vader.vim"
+
+# Test file location
+vader_tests_dir="${test_dir}/vader"
+
+echo "Running vim-bazelrc tests..."
+
+if ! command -v vim >/dev/null 2>&1; then
+  echo "Error: vim is not installed or not in PATH"
+  exit 1
+fi
+
+install_vader() {
+  if [[ -d "${vader_vim_dir}" ]]; then
+    return 0
+  fi
+  mkdir -p "${plugins_dir}"
+  git clone https://github.com/junegunn/vader.vim.git "${vader_vim_dir}"
+}
+
+run_vader_tests() {
+  exec {fd1}<<-EOT
+" filetype off
+set rtp+=${vader_vim_dir}
+set rtp+=${project_dir}
+" filetype plugin indent on
+" syntax enable
+EOT
+
+  exec {fd2}<<-EOT
+Vader! ${vader_tests_dir}/*.vader
+qall!
+EOT
+
+  vim -i NONE -U NONE -u "/dev/fd/$fd1" -nNesS "/dev/fd/$fd2"
+}
+
+main() {
+  install_vader
+  run_vader_tests
+}
+
+main "$@"

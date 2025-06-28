@@ -1,0 +1,96 @@
+Execute (Setup test environment):
+  edit test/fixtures/sample.bazelrc
+
+Execute (Test file type detection):
+  AssertEqual 'bazelrc', &filetype
+
+Execute (Test comment highlighting):
+  normal! gg
+  AssertEqual 'bazelrcComment', synIDattr(synIDtrans(synID(1, 1, 1)), 'name')
+
+Execute (Test TODO in comment):
+  normal! 2G
+  let col = col('TODO') - 1
+  if col > 0
+    AssertEqual 'bazelrcTodo', synIDattr(synIDtrans(synID(2, col, 1)), 'name')
+  endif
+
+Execute (Test FIXME in comment):
+  normal! 3G
+  let col = col('FIXME') - 1
+  if col > 0
+    AssertEqual 'bazelrcTodo', synIDattr(synIDtrans(synID(3, col, 1)), 'name')
+  endif
+
+Execute (Test import keyword):
+  normal! 5G
+  AssertEqual 'bazelrcKeywords', synIDattr(synIDtrans(synID(5, 1, 1)), 'name')
+
+Execute (Test try-import keyword):
+  normal! 6G
+  AssertEqual 'bazelrcKeywords', synIDattr(synIDtrans(synID(6, 1, 1)), 'name')
+
+Execute (Test common scope):
+  normal! 8G
+  AssertEqual 'bazelrcScope', synIDattr(synIDtrans(synID(8, 1, 1)), 'name')
+
+Execute (Test build scope):
+  normal! 11G  
+  AssertEqual 'bazelrcScope', synIDattr(synIDtrans(synID(11, 1, 1)), 'name')
+
+Execute (Test long option --compilation_mode):
+  normal! 11G
+  let col = col('--compilation_mode') - 1
+  if col > 0
+    AssertEqual 'bazelrcLongOption', synIDattr(synIDtrans(synID(11, col, 1)), 'name')
+  endif
+
+Execute (Test long option --copt):
+  normal! 12G
+  let col = col('--copt') - 1
+  if col > 0
+    AssertEqual 'bazelrcLongOption', synIDattr(synIDtrans(synID(12, col, 1)), 'name')
+  endif
+
+Execute (Test short option -c):
+  normal! 14G
+  let col = col('-c') - 1
+  if col > 0
+    AssertEqual 'bazelrcShortOption', synIDattr(synIDtrans(synID(14, col, 1)), 'name')
+  endif
+
+Execute (Test config group in scope):
+  normal! /build:debug
+  let line = line('.')
+  let col = col('debug') - 1
+  if col > 0
+    AssertEqual 'bazelrcConfigGroup', synIDattr(synIDtrans(synID(line, col, 1)), 'name')
+  endif
+
+Execute (Test test scope with config):
+  normal! /test:integration
+  let line = line('.')
+  AssertEqual 'bazelrcScope', synIDattr(synIDtrans(synID(line, 1, 1)), 'name')
+
+Execute (Test run scope):
+  normal! /^run --run_under
+  let line = line('.')
+  AssertEqual 'bazelrcScope', synIDattr(synIDtrans(synID(line, 1, 1)), 'name')
+
+Execute (Test query scope):
+  normal! /^query --output
+  let line = line('.')
+  AssertEqual 'bazelrcScope', synIDattr(synIDtrans(synID(line, 1, 1)), 'name')
+
+Execute (Test startup scope):
+  normal! /^startup --host_jvm_args
+  let line = line('.')
+  AssertEqual 'bazelrcScope', synIDattr(synIDtrans(synID(line, 1, 1)), 'name')
+
+Execute (Test complex config name with underscores and numbers):
+  normal! /build:config_v2
+  let line = line('.')
+  let col = col('config_v2') - 1
+  if col > 0
+    AssertEqual 'bazelrcConfigGroup', synIDattr(synIDtrans(synID(line, col, 1)), 'name')
+  endif

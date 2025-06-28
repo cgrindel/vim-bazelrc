@@ -1,0 +1,44 @@
+# This is a sample .bazelrc file for testing syntax highlighting
+# TODO: Add more comprehensive test cases
+# FIXME: Handle edge cases better
+
+# Import statements
+import %workspace%/tools/bazel.rc
+try-import %workspace%/local.bazelrc
+
+# Common configuration
+common --enable_bzlmod
+common --registry=https://bcr.bazel.build
+
+# Build configurations
+build --compilation_mode=opt
+build --copt=-O2
+build --linkopt=-Wl,--strip-all
+build -c opt
+
+# Test configurations  
+test --test_output=errors
+test --test_timeout=300
+test:integration --test_tag_filters=integration
+test:unit --test_tag_filters=-integration
+
+# Configuration groups
+build:debug --compilation_mode=dbg
+build:debug --strip=never
+build:release --compilation_mode=opt
+build:release --strip=always
+
+# Run configurations
+run --run_under=valgrind
+run:debug --run_under=gdb
+
+# Query configurations
+query --output=label_kind
+
+# Startup options
+startup --host_jvm_args=-Xmx2g
+startup --batch
+
+# Complex config names with underscores and numbers
+build:config_v2 --enable_platform_specific_config
+test:setup_123 --test_env=TEST_MODE=integration
