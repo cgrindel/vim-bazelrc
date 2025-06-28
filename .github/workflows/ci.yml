@@ -19,7 +19,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Intall Vim
+    - name: Install Vim
       uses: rhysd/action-setup-vim@v1
 
     - name: Run tests
