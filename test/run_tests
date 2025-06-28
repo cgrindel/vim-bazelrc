@@ -21,6 +21,7 @@ trap cleanup EXIT
 
 vimrc="${tmp_dir}/vimrc"
 vim_cmds="${tmp_dir}/cmds"
+log_file="/tmp/vim_bazelrc_log_file"
 
 echo "Running vim-bazelrc tests..."
 
@@ -38,7 +39,6 @@ install_vader() {
 }
 
 run_vader_tests() {
-  # exec {fd1}<<-EOT
   cat >"${vimrc}" <<-EOT
 set nocompatible
 set rtp+=${vader_vim_dir}
@@ -47,14 +47,19 @@ filetype plugin indent on
 syntax enable
 EOT
 
-  # exec {fd2}<<-EOT
   cat >"${vim_cmds}" <<-EOT
 Vader! ${vader_tests_dir}/*.vader
 qall!
 EOT
 
-  # vim -i NONE -U NONE -u "/dev/fd/$fd1" -nNesS "/dev/fd/$fd2"
-  vim -i NONE -U NONE -u "${vimrc}" -nNesS "${vim_cmds}"
+  vim_cmd=(
+    vim -i NONE -U NONE --log "${log_file}" -u "${vimrc}" -nNesS "${vim_cmds}"
+  )
+  if ! "${vim_cmd[@]}"; then
+    echo >&2 "LOG FILE:"
+    cat >&2 "${log_file}"
+    return 1
+  fi
 }
 
 main() {
