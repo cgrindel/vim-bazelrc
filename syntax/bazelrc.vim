@@ -11,7 +11,7 @@ endif
 syntax match bazelrcComment /\v#.*$/ contains=bazelrcTodo
 syntax keyword bazelrcTodo TODO FIXME contained
 
-syntax keyword bazelrcKeywords import try-import
+syntax keyword bazelrcKeywords try-import import 
 
 " Match the scope:group at the beginning of a line.
 syntax match bazelrcScope /\v^[A-Za-z0-9_:]+/ contains=bazelrcConfigGroupClause
