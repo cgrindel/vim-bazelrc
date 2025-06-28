@@ -30,11 +30,11 @@ install_vader() {
 
 run_vader_tests() {
   exec {fd1}<<-EOT
-" filetype off
+set nocompatible
 set rtp+=${vader_vim_dir}
 set rtp+=${project_dir}
-" filetype plugin indent on
-" syntax enable
+filetype plugin indent on
+syntax enable
 EOT
 
   exec {fd2}<<-EOT
