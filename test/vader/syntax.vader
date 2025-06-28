@@ -28,11 +28,10 @@ Execute (Test import keyword):
   normal! 6G
   AssertEqual 'bazelrcKeywords', synIDattr(synID(6, 1, 1), 'name')
 
-" GH002: This test works on MacOS locally, but fails on GitHub Actions Linux runner.
-" Execute (Test try-import keyword):
-"   edit test/fixtures/sample.bazelrc
-"   normal! 7G
-"   AssertEqual 'bazelrcKeywords', synIDattr(synID(7, 1, 1), 'name')
+Execute (Test try-import keyword):
+  edit test/fixtures/sample.bazelrc
+  normal! 7G
+  AssertEqual 'bazelrcKeywords', synIDattr(synID(7, 1, 1), 'name')
 
 Execute (Test common scope):
   edit test/fixtures/sample.bazelrc

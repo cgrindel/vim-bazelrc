@@ -7,6 +7,9 @@ if exists("b:current_syntax")
   finish
 endif
 
+" Include hyphen as a keyword character for this buffer
+setlocal iskeyword+=-
+
 " Comments
 syntax match bazelrcComment /\v#.*$/ contains=bazelrcTodo
 syntax keyword bazelrcTodo TODO FIXME contained
