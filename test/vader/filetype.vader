@@ -1,0 +1,27 @@
+Execute (Test .bazelrc filetype detection):
+  edit .bazelrc
+  AssertEqual 'bazelrc', &filetype
+
+Execute (Test local.bazelrc filetype detection):
+  edit local.bazelrc
+  AssertEqual 'bazelrc', &filetype
+
+Execute (Test tools.bazelrc filetype detection):
+  edit tools.bazelrc
+  AssertEqual 'bazelrc', &filetype
+
+Execute (Test nested directory .bazelrc filetype detection):
+  edit config/.bazelrc  
+  AssertEqual 'bazelrc', &filetype
+
+Execute (Test nested directory local.bazelrc filetype detection):
+  edit project/local.bazelrc
+  AssertEqual 'bazelrc', &filetype
+
+Execute (Test file without .bazelrc extension should not match):
+  edit somefile.txt
+  AssertNotEqual 'bazelrc', &filetype
+
+Execute (Test random.txt should not match):
+  edit random.txt
+  AssertNotEqual 'bazelrc', &filetype

@@ -1,0 +1,2 @@
+# Ignore anything under test/plugins directory
+test/plugins/**
