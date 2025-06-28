@@ -50,4 +50,8 @@ main() {
   run_vader_tests
 }
 
+# DEBUG BEGIN
+set -x
+# DEBUG END
+
 main "$@"

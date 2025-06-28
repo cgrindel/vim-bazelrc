@@ -28,5 +28,6 @@ jobs:
         # DEBUG BEGIN
         echo >&2 "*** CHUCK $(basename "${BASH_SOURCE[0]}") PWD: ${PWD}"
         find . >&2
+        which vim
         # DEBUG END
         ./test/run_tests
