@@ -14,8 +14,7 @@ syntax keyword bazelrcTodo TODO FIXME contained
 syntax keyword bazelrcKeywords import try-import
 
 " Match the scope:group at the beginning of a line.
-" syntax match bazelrcScope /\v^[A-Za-z0-9_:]+/ contains=bazelrcConfigGroupClause
-syntax match bazelrcScope /\v^(build|test|run|query|fetch|sync|common|startup|coverage)([A-Za-z0-9_:-]*)?/ contains=bazelrcConfigGroupClause
+syntax match bazelrcScope /\v^[A-Za-z0-9_:]+/ contains=bazelrcConfigGroupClause
 syntax match bazelrcConfigGroupClause /\v:\i*/ contained contains=bazelrcConfigGroup
 syntax match bazelrcConfigGroup /\v\i+/ contained
 
