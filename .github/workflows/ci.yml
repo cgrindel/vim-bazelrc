@@ -24,16 +24,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y vim
 
-    # DEBUG BEGIN
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-    # DEBUG END
-
     - name: Run tests
       run: |
-        # DEBUG BEGIN
-        echo >&2 "*** CHUCK $(basename "${BASH_SOURCE[0]}") PWD: ${PWD}"
-        find . >&2
-        which vim
-        # DEBUG END
         ./test/run_tests
